@@ -10,6 +10,10 @@ import { UsersService } from './services/users/users.service';
 import { JwtStrategy } from './services/users/strategies/jwt.strategy';
 import { ClientController } from './controllers/client/client.controller';
 import { ClientService } from './services/client/client.service';
+import { ProjectController } from './controllers/project/project.controller';
+import { ProjectService } from './services/project.service';
+import { InteractionController } from './controllers/interaction.controller';
+import { InteractionService } from './services/interaction.service';
 
 @Module({
   imports: [
@@ -23,7 +27,7 @@ import { ClientService } from './services/client/client.service';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  controllers: [AppController, UserAuthController, ClientController],
-  providers: [AuthService, UsersService, JwtStrategy, ClientService],
+  controllers: [AppController, UserAuthController, ClientController, ProjectController, InteractionController],
+  providers: [AuthService, UsersService, JwtStrategy, ClientService, ProjectService, InteractionService],
 })
 export class AppModule {} 

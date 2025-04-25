@@ -18,41 +18,35 @@ api.interceptors.request.use((config) => {
 
 export interface Project {
   id: string;
-  name: string;
-  description?: string;
-  status: 'active' | 'completed' | 'on_hold';
-  startDate: string;
-  endDate?: string;
+  title: string;
+  budget: number;
+  deadline: string;
+  status: string;
   clientId: string;
+  client?: {
+    id: string;
+    name: string;
+    email: string;
+  };
 }
 
-export const fetchProjects = async (): Promise<Project[]> => {
-  const response = await api.get('/projects');
-  return response.data;
-};
-
-export const fetchProject = async (id: string): Promise<Project> => {
-  const response = await api.get(`/projects/${id}`);
-  return response.data;
-};
-
-export const createProject = async (projectData: {
-  name: string;
-  description?: string;
-  status: 'active' | 'completed' | 'on_hold';
-  startDate: string;
-  endDate?: string;
-  clientId: string;
-}): Promise<Project> => {
+export const createProject = async (projectData: Omit<Project, 'id'>): Promise<Project> => {
   const response = await api.post('/projects', projectData);
   return response.data;
 };
 
-export const updateProject = async (
-  id: string,
-  projectData: Partial<Project>
-): Promise<Project> => {
-  const response = await api.put(`/projects/${id}`, projectData);
+export const getProjects = async (): Promise<Project[]> => {
+  const response = await api.get('/projects');
+  return response.data;
+};
+
+export const getProject = async (id: string): Promise<Project> => {
+  const response = await api.get(`/projects/${id}`);
+  return response.data;
+};
+
+export const updateProject = async (id: string, projectData: Partial<Project>): Promise<Project> => {
+  const response = await api.patch(`/projects/${id}`, projectData);
   return response.data;
 };
 

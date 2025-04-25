@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchClients } from '../services/clientService';
-import { fetchProjects } from '../services/projectService';
+import { getProjects } from '../services/projectService';
 
 const Dashboard: React.FC = () => {
   const { data: clients, isLoading: isLoadingClients } = useQuery({
@@ -11,7 +11,7 @@ const Dashboard: React.FC = () => {
 
   const { data: projects, isLoading: isLoadingProjects } = useQuery({
     queryKey: ['projects'],
-    queryFn: fetchProjects,
+    queryFn: getProjects,
   });
 
   return (

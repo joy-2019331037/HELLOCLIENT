@@ -14,6 +14,7 @@ const Layout: React.FC = () => {
     { name: 'Dashboard', href: '/dashboard' },
     { name: 'Clients', href: '/clients' },
     { name: 'Projects', href: '/projects' },
+    { name: 'Interactions', href: '/interactions' },
   ];
 
   const handleLogout = () => {
