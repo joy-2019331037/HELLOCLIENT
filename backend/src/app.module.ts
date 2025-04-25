@@ -14,6 +14,8 @@ import { ProjectController } from './controllers/project/project.controller';
 import { ProjectService } from './services/project.service';
 import { InteractionController } from './controllers/interaction.controller';
 import { InteractionService } from './services/interaction.service';
+import { ReminderController } from './controllers/reminder.controller';
+import { ReminderService } from './services/reminder.service';
 
 @Module({
   imports: [
@@ -27,7 +29,22 @@ import { InteractionService } from './services/interaction.service';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  controllers: [AppController, UserAuthController, ClientController, ProjectController, InteractionController],
-  providers: [AuthService, UsersService, JwtStrategy, ClientService, ProjectService, InteractionService],
+  controllers: [
+    AppController,
+    UserAuthController,
+    ClientController,
+    ProjectController,
+    InteractionController,
+    ReminderController,
+  ],
+  providers: [
+    AuthService,
+    UsersService,
+    JwtStrategy,
+    ClientService,
+    ProjectService,
+    InteractionService,
+    ReminderService,
+  ],
 })
 export class AppModule {} 

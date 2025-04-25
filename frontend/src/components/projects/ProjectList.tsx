@@ -111,7 +111,7 @@ const ProjectList: React.FC = () => {
           >
             <h2 className="text-xl font-semibold mb-2">{project.title}</h2>
             <p className={`mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-              Budget: ${project.budget}
+              Budget: ৳{project.budget}
             </p>
             <p className={`mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Deadline: {new Date(project.deadline).toLocaleDateString()}

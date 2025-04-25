@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
           </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
             Streamline your customer relationships with our intuitive and powerful CRM solution.
-            Manage contacts, track interactions, and grow your business effortlessly.
+            Manage clients, track interactions, and grow your business effortlessly.
           </p>
           <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
             <div className="rounded-md shadow">
@@ -51,14 +51,7 @@ const HomePage: React.FC = () => {
                 Get Started
               </Link>
             </div>
-            <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
-              <Link
-                to="/features"
-                className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10"
-              >
-                Learn More
-              </Link>
-            </div>
+
           </div>
         </div>
       </div>
@@ -68,15 +61,15 @@ const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div className="p-6 bg-indigo-50 rounded-lg">
-              <h3 className="text-lg font-medium text-indigo-600">Smart Contact Management</h3>
+              <h3 className="text-lg font-medium text-indigo-600">Smart Client Management</h3>
               <p className="mt-2 text-gray-600">
-                Organize and manage your contacts efficiently with our intuitive interface.
+                Organize and manage your clients efficiently with our intuitive interface.
               </p>
             </div>
             <div className="p-6 bg-indigo-50 rounded-lg">
               <h3 className="text-lg font-medium text-indigo-600">Real-time Analytics</h3>
               <p className="mt-2 text-gray-600">
-                Get insights into your customer interactions with powerful analytics tools.
+                Get insights into your clients interactions with powerful analytics tools.
               </p>
             </div>
             <div className="p-6 bg-indigo-50 rounded-lg">
@@ -94,7 +87,7 @@ const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
           <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             <span className="block">Ready to get started?</span>
-            <span className="block text-indigo-200">Join thousands of satisfied customers today.</span>
+            <span className="block text-indigo-200">Join thousands of satisfied clients today.</span>
           </h2>
           <div className="mt-8 flex lg:mt-0 lg:flex-shrink-0">
             <div className="inline-flex rounded-md shadow">

@@ -67,7 +67,7 @@ const ProjectDetail: React.FC = () => {
         <div className="space-y-4">
           <div>
             <h2 className="text-sm font-semibold text-gray-600">Budget</h2>
-            <p className="text-lg">${project.budget}</p>
+            <p className="text-lg">৳{project.budget}</p>
           </div>
 
           <div>

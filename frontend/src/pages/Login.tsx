@@ -48,7 +48,7 @@ const Login: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <span className="font-medium text-base">Smart Contact Management</span>
+                <span className="font-medium text-base">Smart Client Management</span>
               </div>
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 rounded-full bg-indigo-400/30 backdrop-blur-sm flex items-center justify-center">
@@ -161,6 +161,12 @@ const Login: React.FC = () => {
               </Link>
             </p>
           </div>
+
+          <div className="mt-10 text-center">
+          <button className="inline-flex items-center justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed">
+            <Link to="/" className="text-white hover:text-white">Home</Link>
+          </button>
+        </div>
         </div>
       </div>
     </div>
