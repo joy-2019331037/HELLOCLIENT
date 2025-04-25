@@ -14,7 +14,7 @@ interface RequestWithUser {
 @Controller('projects')
 @UseGuards(JwtAuthGuard)
 export class ProjectController {
-  constructor(private readonly projectService: ProjectService) {}
+  constructor(private readonly projectService: ProjectService) { }
 
   @Post()
   create(@Request() req: RequestWithUser, @Body() createProjectDto: CreateProjectDto) {
@@ -23,6 +23,14 @@ export class ProjectController {
     console.log('CreateProjectDto:', createProjectDto);
     return this.projectService.createProject(req.user.id, createProjectDto);
   }
+
+  @Get('stats')
+  getProjectStats(@Request() req: RequestWithUser) {
+  
+    return this.projectService.getProjectStats(req.user.id);
+  }
+
+
 
   @Get()
   findAll(@Request() req: RequestWithUser) {

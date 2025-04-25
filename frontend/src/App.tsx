@@ -10,13 +10,12 @@ import Dashboard from './pages/Dashboard';
 import Clients from './pages/Clients';
 import ClientDetail from './pages/ClientDetail';
 import Projects from './pages/Projects';
-import ProjectDetail from './components/projects/ProjectDetail';
-import ProjectForm from './components/projects/ProjectForm';
 import PrivateRoute from './components/PrivateRoute';
+import ProjectForm from './components/projects/ProjectForm';
+import ProjectDetail from './components/projects/ProjectDetail';
 import AllInteractions from './pages/AllInteractions';
 import InteractionForm from './components/interactions/InteractionForm';
 import InteractionDetail from './components/interactions/InteractionDetails';
-import InteractionList from './components/interactions/InteractionList';
 
 const queryClient = new QueryClient();
 
@@ -46,7 +45,7 @@ const App: React.FC = () => {
               <Route path="/interactions" element={<AllInteractions />} />
               <Route path="/interactions/new" element={<InteractionForm />} />
               <Route path="/interactions/:id" element={<InteractionDetail />} />
-              <Route path="/interactions/:id/edit" element={<InteractionForm />} />
+              <Route path="/interactions/:id/edit" element={<InteractionForm />} /> 
             </Route>
           </Routes>
         </Router>

@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Project, getProjects, deleteProject } from '../../services/projectService';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 
 const ProjectList: React.FC = () => {
   const { theme } = useTheme();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [projects, setProjects] = useState<Project[]>([]);
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>(searchParams.get('status') || 'all');
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
         const data = await getProjects();
         setProjects(data);
+        setFilteredProjects(data);
       } catch (err) {
         setError('Failed to fetch projects');
       } finally {
@@ -23,6 +27,21 @@ const ProjectList: React.FC = () => {
 
     fetchProjects();
   }, []);
+
+  useEffect(() => {
+    if (statusFilter === 'all') {
+      setFilteredProjects(projects);
+    } else {
+      setFilteredProjects(projects.filter(project => project.status === statusFilter));
+    }
+    // Update URL query parameter
+    if (statusFilter === 'all') {
+      searchParams.delete('status');
+    } else {
+      searchParams.set('status', statusFilter);
+    }
+    setSearchParams(searchParams);
+  }, [statusFilter, projects, searchParams, setSearchParams]);
 
   const handleDelete = async (id: string) => {
     if (window.confirm('Are you sure you want to delete this project?')) {
@@ -35,6 +54,21 @@ const ProjectList: React.FC = () => {
     }
   };
 
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'in_progress':
+        return 'text-green-500';
+      case 'completed':
+        return 'text-blue-500';
+      case 'cancelled':
+        return 'text-red-500';
+      case 'pending':
+        return 'text-yellow-500';
+      default:
+        return 'text-gray-500';
+    }
+  };
+
   if (loading) return <div className="flex justify-center items-center h-64">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
 
@@ -42,16 +76,33 @@ const ProjectList: React.FC = () => {
     <div className="container mx-auto px-4 py-8">
       <div className="flex justify-between items-center mb-6">
         <h1 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Projects</h1>
-        <Link
-          to="/projects/new"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        >
-          Add New Project
-        </Link>
+        <div className="flex items-center space-x-4">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className={`px-3 py-2 rounded border ${
+              theme === 'dark' 
+                ? 'bg-gray-700 text-white border-gray-600' 
+                : 'bg-white text-gray-900 border-gray-300'
+            }`}
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="in_progress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+          <Link
+            to="/projects/new"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
+            Add New Project
+          </Link>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
+        {filteredProjects.map((project) => (
           <div 
             key={project.id} 
             className={`rounded-lg shadow-md p-6 ${
@@ -65,8 +116,8 @@ const ProjectList: React.FC = () => {
             <p className={`mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
               Deadline: {new Date(project.deadline).toLocaleDateString()}
             </p>
-            <p className={`mb-2 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-              Status: {project.status}
+            <p className={`mb-2 ${getStatusColor(project.status)}`}>
+              Status: {project.status.replace('_', ' ').toUpperCase()}
             </p>
             {project.client && (
               <p className={`mb-4 ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
@@ -95,6 +146,13 @@ const ProjectList: React.FC = () => {
             </div>
           </div>
         ))}
+        {filteredProjects.length === 0 && (
+          <div className={`col-span-full text-center py-8 ${
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+          }`}>
+            No projects found with the selected status
+          </div>
+        )}
       </div>
     </div>
   );

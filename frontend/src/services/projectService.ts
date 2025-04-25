@@ -53,3 +53,15 @@ export const updateProject = async (id: string, projectData: Partial<Project>): 
 export const deleteProject = async (id: string): Promise<void> => {
   await api.delete(`/projects/${id}`);
 }; 
+
+export const getProjectStats = async (): Promise<{
+  total: number;
+  in_progress: number;
+  completed: number;
+  cancelled:number;
+  pending: number;
+}> => {
+  const response = await api.get('/projects/stats');
+  console.log(response.data);
+  return response.data;
+};

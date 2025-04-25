@@ -5,7 +5,7 @@ import { UpdateProjectDto } from '../dto/project.dto';
 
 @Injectable()
 export class ProjectService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async createProject(userId: string, createProjectDto: CreateProjectDto) {
     return this.prisma.project.create({
@@ -29,6 +29,51 @@ export class ProjectService {
       },
     });
   }
+
+  async getProjectStats(userId: string) {
+    const [total, in_progress, completed, cancelled, pending] = await Promise.all([
+      this.prisma.project.count({
+        where: { userId }
+      }),
+      this.prisma.project.count({
+        where: {
+          userId,
+          status: 'in_progress'
+        }
+      }),
+      this.prisma.project.count({
+        where: {
+          userId,
+          status: 'completed'
+        }
+      }),
+      this.prisma.project.count({
+        where: {
+          userId,
+          status: 'cancelled'
+        }
+      }),
+      this.prisma.project.count({
+        where: {
+          userId,
+          status: 'pending'
+        }
+      })
+    ]);
+
+    const stats = {
+      total,
+      in_progress,
+      completed,
+      cancelled,
+      pending,
+    };
+  
+    console.log('Project stats for user:', userId, stats); // ✅ Logs user ID and results
+  
+    return stats;
+  }
+
 
   async findProjectById(userId: string, id: string) {
     const project = await this.prisma.project.findFirst({
