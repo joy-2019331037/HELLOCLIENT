@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Project, createProject, getProject, updateProject } from '../../services/projectService';
 import { fetchClients } from '../../services/clientService';
 import { useTheme } from '../../context/ThemeContext';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface Client {
   id: string;
@@ -13,9 +14,19 @@ const ProjectForm: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { theme } = useTheme();
-  const [clients, setClients] = useState<Client[]>([]);
-  const [loading, setLoading] = useState(true);
+  const queryClient = useQueryClient();
   const [error, setError] = useState<string | null>(null);
+
+  const { data: clients = [] } = useQuery<Client[]>({
+    queryKey: ['clients'],
+    queryFn: fetchClients,
+  });
+
+  const { data: project } = useQuery<Project>({
+    queryKey: ['project', id],
+    queryFn: () => getProject(id!),
+    enabled: !!id,
+  });
 
   const [formData, setFormData] = useState<Omit<Project, 'id'>>({
     title: '',
@@ -26,47 +37,50 @@ const ProjectForm: React.FC = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const clientsData = await fetchClients();
-        setClients(clientsData);
+    if (project) {
+      setFormData({
+        title: project.title,
+        budget: project.budget,
+        deadline: project.deadline,
+        status: project.status,
+        clientId: project.clientId,
+      });
+    }
+  }, [project]);
 
-        if (id) {
-          const project = await getProject(id);
-          setFormData({
-            title: project.title,
-            budget: project.budget,
-            deadline: project.deadline,
-            status: project.status,
-            clientId: project.clientId,
-          });
-        }
-      } catch (err) {
-        setError('Failed to fetch data');
-      } finally {
-        setLoading(false);
-      }
-    };
+  const createMutation = useMutation({
+    mutationFn: createProject,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      navigate('/projects');
+    },
+    onError: () => {
+      setError('Failed to create project');
+    },
+  });
 
-    fetchData();
-  }, [id]);
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<Project> }) => updateProject(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['projects'] });
+      navigate('/projects');
+    },
+    onError: () => {
+      setError('Failed to update project');
+    },
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      const submissionData = {
-        ...formData,
-        deadline: new Date(formData.deadline).toISOString(),
-      };
+    const submissionData = {
+      ...formData,
+      deadline: new Date(formData.deadline).toISOString(),
+    };
 
-      if (id) {
-        await updateProject(id, submissionData);
-      } else {
-        await createProject(submissionData);
-      }
-      navigate('/projects');
-    } catch (err) {
-      setError('Failed to save project');
+    if (id) {
+      updateMutation.mutate({ id, data: submissionData });
+    } else {
+      createMutation.mutate(submissionData);
     }
   };
 
@@ -78,7 +92,6 @@ const ProjectForm: React.FC = () => {
     }));
   };
 
-  if (loading) return <div className="flex justify-center items-center h-64">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
 
   return (

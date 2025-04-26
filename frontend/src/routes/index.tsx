@@ -6,7 +6,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Dashboard from '../pages/Dashboard';
 import Clients from '../pages/Clients';
-import ClientDetail from '../pages/ClientDetail';
+import ClientDetail from '../components/clients/ClientDetail';
 import Projects from '../pages/Projects';
 import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
 import ProjectForm from '../components/projects/ProjectForm';

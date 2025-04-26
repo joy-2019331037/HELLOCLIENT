@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { fetchClient, updateClient, deleteClient } from '../services/clientService';
+import { fetchClient, updateClient, deleteClient } from '../../services/clientService';
 
 const ClientDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();

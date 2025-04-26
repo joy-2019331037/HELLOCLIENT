@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { PlusIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { fetchClients, deleteClient } from '../../services/clientService';
@@ -14,7 +14,8 @@ interface Client {
 }
 
 const ClientList: React.FC = () => {
-  const { data: clients, isLoading, error, refetch } = useQuery<Client[]>({
+  const queryClient = useQueryClient();
+  const { data: clients, isLoading, error } = useQuery<Client[]>({
     queryKey: ['clients'],
     queryFn: fetchClients,
   });
@@ -25,7 +26,13 @@ const ClientList: React.FC = () => {
     )) {
       try {
         await deleteClient(id);
-        refetch();
+        // Invalidate all related queries to ensure UI is updated
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ['clients'] }),
+          queryClient.invalidateQueries({ queryKey: ['projects'] }),
+          queryClient.invalidateQueries({ queryKey: ['interactions'] }),
+          queryClient.invalidateQueries({ queryKey: ['projectStats'] })
+        ]);
       } catch (error) {
         console.error('Failed to delete client:', error);
       }

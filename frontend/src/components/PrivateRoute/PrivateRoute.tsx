@@ -3,6 +3,8 @@ import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import axios from 'axios';
 
+const API_URL = 'http://localhost:8000/api';
+
 interface PrivateRouteProps {
   children: React.ReactNode;
 }
@@ -24,7 +26,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
 
       try {
         // Verify token with backend
-        await axios.get('http://localhost:8000/api/auth/me', {
+        await axios.get(`${API_URL}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

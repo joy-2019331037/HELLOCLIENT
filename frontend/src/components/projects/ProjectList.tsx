@@ -13,7 +13,7 @@ const ProjectList: React.FC = () => {
   const { data: projects = [], isLoading, error } = useQuery<Project[], Error>({
     queryKey: ['projects'],
     queryFn: getProjects,
-    staleTime: 5 * 60 * 1000, // Data stays fresh for 5 minutes
+    refetchOnWindowFocus: true,
   });
 
   const deleteMutation = useMutation({
