@@ -50,6 +50,19 @@ const InteractionForm: React.FC = () => {
     setLoading(true);
     setError(null);
 
+    // Validate required fields
+    if (!formData.clientId) {
+      setError('Please select a client');
+      setLoading(false);
+      return;
+    }
+
+    if (!formData.projectId) {
+      setError('Please select a project');
+      setLoading(false);
+      return;
+    }
+
     try {
       if (id) {
         await updateInteraction(id, formData);
@@ -117,7 +130,7 @@ const InteractionForm: React.FC = () => {
 
           <div>
             <label htmlFor="clientId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Client
+              Client *
             </label>
             <select
               name="clientId"
@@ -125,8 +138,9 @@ const InteractionForm: React.FC = () => {
               value={formData.clientId}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:text-white"
+              required
             >
-              <option value="">Select client</option>
+              <option value="">Select a client</option>
               {clients.map(client => (
                 <option key={client.id} value={client.id}>
                   {client.name}
@@ -137,7 +151,7 @@ const InteractionForm: React.FC = () => {
 
           <div>
             <label htmlFor="projectId" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-              Project
+              Project *
             </label>
             <select
               name="projectId"
@@ -145,8 +159,9 @@ const InteractionForm: React.FC = () => {
               value={formData.projectId}
               onChange={handleChange}
               className="mt-1 block w-full border border-gray-300 dark:border-gray-600 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:bg-gray-700 dark:text-white"
+              required
             >
-              <option value="">Select project</option>
+              <option value="">Select a project</option>
               {projects.map(project => (
                 <option key={project.id} value={project.id}>
                   {project.title}
