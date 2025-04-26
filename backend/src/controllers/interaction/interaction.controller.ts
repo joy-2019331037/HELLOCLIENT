@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query, Logger } from '@nestjs/common';
-import { InteractionService } from '../services/interaction.service';
-import { CreateInteractionDto } from '../dto/interaction.dto';
-import { UpdateInteractionDto } from '../dto/interaction.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
-import { GetUser } from '../decorators/get-user.decorator';
+import { InteractionService } from '../../services/interaction/interaction.service';
+import { CreateInteractionDto } from '../../dto/interaction.dto';
+import { UpdateInteractionDto } from '../../dto/interaction.dto';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
+import { GetUser } from '../../decorators/get-user.decorator';
 
 @Controller('interactions')
 @UseGuards(JwtAuthGuard)

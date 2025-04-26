@@ -11,11 +11,11 @@ import { JwtStrategy } from './services/users/strategies/jwt.strategy';
 import { ClientController } from './controllers/client/client.controller';
 import { ClientService } from './services/client/client.service';
 import { ProjectController } from './controllers/project/project.controller';
-import { ProjectService } from './services/project.service';
-import { InteractionController } from './controllers/interaction.controller';
-import { InteractionService } from './services/interaction.service';
-import { ReminderController } from './controllers/reminder.controller';
-import { ReminderService } from './services/reminder.service';
+import { ProjectService } from './services/project/project.service';
+import { InteractionController } from './controllers/interaction/interaction.controller';
+import { InteractionService } from './services/interaction/interaction.service';
+import { ReminderController } from './controllers/reminder/reminder.controller';
+import { ReminderService } from './services/reminder/reminder.service';
 
 @Module({
   imports: [

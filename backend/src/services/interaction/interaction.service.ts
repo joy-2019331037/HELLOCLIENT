@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateInteractionDto } from '../dto/interaction.dto';
-import { UpdateInteractionDto } from '../dto/interaction.dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreateInteractionDto } from '../../dto/interaction.dto';
+import { UpdateInteractionDto } from '../../dto/interaction.dto';
 
 @Injectable()
 export class InteractionService {

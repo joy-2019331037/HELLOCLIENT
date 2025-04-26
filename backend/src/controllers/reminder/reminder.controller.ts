@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
-import { ReminderService } from '../services/reminder.service';
-import { CreateReminderDto } from '../dto/reminder.dto';
-import { UpdateReminderDto } from '../dto/reminder.dto';
-import { JwtAuthGuard } from '../guards/jwt-auth.guard';
+import { ReminderService } from '../../services/reminder/reminder.service';
+import { CreateReminderDto } from '../../dto/reminder.dto';
+import { UpdateReminderDto } from '../../dto/reminder.dto';
+import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 interface RequestWithUser extends Request {
   user: {
@@ -50,7 +50,8 @@ export class ReminderController {
   }
 
   @Post('sync-project-deadlines')
-  async syncProjectDeadlineReminders() {
-    return this.reminderService.syncProjectDeadlineReminders();
+  @UseGuards(JwtAuthGuard)
+  async syncProjectDeadlineReminders(@Request() req: RequestWithUser) {
+    return this.reminderService.syncProjectDeadlineReminders(req.user.id);
   }
 } 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Layout from '../components/Layout';
+import Layout from '../components/Layout/Layout';
 import HomePage from '../pages/HomePage';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
@@ -8,12 +8,13 @@ import Dashboard from '../pages/Dashboard';
 import Clients from '../pages/Clients';
 import ClientDetail from '../pages/ClientDetail';
 import Projects from '../pages/Projects';
-import PrivateRoute from '../components/PrivateRoute';
+import PrivateRoute from '../components/PrivateRoute/PrivateRoute';
 import ProjectForm from '../components/projects/ProjectForm';
-import ProjectDetail from '../components/projects/ProjectDetail';
+import ProjectDetail from '../components/projects/ProjectDetails';
 import AllInteractions from '../pages/AllInteractions';
 import InteractionForm from '../components/interactions/InteractionForm';
 import InteractionDetail from '../components/interactions/InteractionDetails';
+import Profile from '../pages/Profile';
 
 export const AppRoutes: React.FC = () => {
   return (
@@ -29,6 +30,7 @@ export const AppRoutes: React.FC = () => {
         }
       >
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/clients" element={<Clients />} />
         <Route path="/clients/:id" element={<ClientDetail />} />
         <Route path="/projects" element={<Projects />} />

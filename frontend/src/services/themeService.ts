@@ -1,7 +1,7 @@
 // frontend/src/services/theme.service.ts
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const updateThemePreference = async (theme: 'light' | 'dark') => {
   const token = localStorage.getItem('token');

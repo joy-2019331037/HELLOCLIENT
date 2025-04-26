@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from '../prisma/prisma.service';
-import { CreateReminderDto } from '../dto/reminder.dto';
-import { UpdateReminderDto } from '../dto/reminder.dto';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CreateReminderDto } from '../../dto/reminder.dto';
+import { UpdateReminderDto } from '../../dto/reminder.dto';
 
 @Injectable()
 export class ReminderService {
@@ -122,9 +122,10 @@ export class ReminderService {
     });
   }
 
-  async syncProjectDeadlineReminders() {
+  async syncProjectDeadlineReminders(userId: string) {
     const projects = await this.prisma.project.findMany({
       where: {
+        userId,
         deadline: {
           gte: new Date(),
         },

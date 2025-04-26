@@ -1,9 +1,9 @@
 import React from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import { logout } from '../services/auth.service';
-import logo from '../assets/images/logo.png';
+import { useTheme } from '../../context/ThemeContext';
+import { SunIcon, MoonIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { logout } from '../../services/auth.service';
+import logo from '../../assets/images/logo.png';
 
 const Layout: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
@@ -60,6 +60,13 @@ const Layout: React.FC = () => {
                 ) : (
                   <MoonIcon className="h-6 w-6" />
                 )}
+              </button>
+              <button
+                onClick={() => navigate('/profile')}
+                className="p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 focus:outline-none"
+                title="Profile"
+              >
+                <UserCircleIcon className="h-6 w-6" />
               </button>
               <button
                 onClick={handleLogout}
