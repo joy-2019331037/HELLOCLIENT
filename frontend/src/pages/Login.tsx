@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/images/logo.png';
-import { login } from '../services/auth.service';
+import { useAuth } from '../hooks/useAuth';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +9,7 @@ const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,7 +17,8 @@ const Login: React.FC = () => {
     setIsLoading(true);
 
     try {
-      await login({ email, password });
+      await login(email, password);
+      console.log('Login successful');
       navigate('/dashboard');
     } catch (error: any) {
       setError(error.response?.data?.message || 'Login failed. Please try again.');

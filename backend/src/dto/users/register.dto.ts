@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength, IsOptional, IsBoolean, IsDate, IsJSON } from 'class-validator';
+import { IsEmail, IsString, MinLength, IsOptional, IsBoolean, IsDate, IsJSON, IsIn } from 'class-validator';
 
 export class RegisterDto {
   @IsEmail()
@@ -41,4 +41,9 @@ export class RegisterDto {
   @IsJSON()
   @IsOptional()
   dashboardPreferences?: any;
+
+  @IsString()
+  @IsIn(['light', 'dark'])
+  @IsOptional()
+  themePreference?: 'light' | 'dark';
 } 

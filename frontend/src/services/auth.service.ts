@@ -24,6 +24,7 @@ export const login = async (credentials: {
     const response = await axios.post(`${API_URL}/auth/login`, credentials);
     // Store the token in localStorage
     localStorage.setItem('token', response.data.access_token);
+    console.log('Login successful ', response.data);
     return response.data;
   } catch (error) {
     throw error;

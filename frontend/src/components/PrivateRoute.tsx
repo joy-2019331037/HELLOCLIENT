@@ -1,15 +1,19 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 interface PrivateRouteProps {
   children: React.ReactNode;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children }) => {
-  // TODO: Replace with actual auth check
-  const isAuthenticated = true;
+  const { user, loading } = useAuth();
 
-  if (!isAuthenticated) {
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!user) {
     return <Navigate to="/login" replace />;
   }
 
