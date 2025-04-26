@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -20,6 +21,7 @@ model User {
   isActive              Boolean       @default(true)
   lastLogin             DateTime?
   emailVerified         Boolean       @default(false)
+  verificationToken     String?
   resetPasswordToken    String?
   resetPasswordExpires  DateTime?
   timezone              String        @default("UTC")

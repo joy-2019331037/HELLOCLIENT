@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createClient,
   updateClient,
@@ -34,6 +34,8 @@ const ClientForm: React.FC = () => {
     enabled: isEditing,
   });
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (client) {
       setFormData({
@@ -49,7 +51,16 @@ const ClientForm: React.FC = () => {
   const mutation = useMutation({
     mutationFn: (data: ClientFormData) =>
       isEditing ? updateClient(id!, data) : createClient(data),
-    onSuccess: () => {
+    onSuccess: (newClient) => {
+      if (!isEditing) {
+        // Update the cache with the new client
+        queryClient.setQueryData(['clients'], (oldClients: any) => {
+          return [...(oldClients || []), newClient];
+        });
+      } else {
+        // Invalidate the cache for updates
+        queryClient.invalidateQueries({ queryKey: ['clients'] });
+      }
       navigate('/clients');
     },
   });

@@ -39,6 +39,50 @@ export class UsersService {
     });
   }
 
+  async findByVerificationToken(token: string) {
+    console.log('Searching for user with verification token:', token);
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: { 
+          verificationToken: token,
+          emailVerified: false // Only find unverified users
+        },
+      });
+      console.log('User found with verification token:', user ? {
+        id: user.id,
+        email: user.email,
+        verificationToken: user.verificationToken
+      } : 'No user found');
+      return user;
+    } catch (error) {
+      console.error('Error finding user by verification token:', {
+        token,
+        error: error.message,
+        stack: error.stack
+      });
+      throw error;
+    }
+  }
+
+  async update(id: string, data: any) {
+    try {
+      return await this.prisma.$transaction(async (tx) => {
+        const user = await tx.user.update({
+          where: { id },
+          data,
+        });
+        return user;
+      });
+    } catch (error) {
+      console.error('Error updating user:', {
+        userId: id,
+        error: error.message,
+        stack: error.stack
+      });
+      throw error;
+    }
+  }
+
   async findOne(id: number) {
     return this.prisma.user.findUnique({
       where: { id: id.toString() },

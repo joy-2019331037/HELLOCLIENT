@@ -71,12 +71,31 @@ export class ClientService {
         id,
         userId,
       },
+      include: {
+        projects: true,
+        interactions: true,
+      },
     });
 
     if (!client) {
       throw new NotFoundException('Client not found');
     }
 
+    // Delete all related projects first
+    await this.prisma.project.deleteMany({
+      where: {
+        clientId: id,
+      },
+    });
+
+    // Delete all related interactions
+    await this.prisma.interaction.deleteMany({
+      where: {
+        clientId: id,
+      },
+    });
+
+    // Then delete the client
     return this.prisma.client.delete({
       where: { id },
     });

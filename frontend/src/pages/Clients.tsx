@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { createClient, fetchClients } from '../services/clientService';
 import { Link } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Clients: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -13,6 +14,8 @@ const Clients: React.FC = () => {
     notes: '',
   });
 
+  const queryClient = useQueryClient();
+
   // Fetch clients list
   const { data: clients, isLoading, error } = useQuery({
     queryKey: ['clients'],
@@ -21,7 +24,11 @@ const Clients: React.FC = () => {
 
   const createMutation = useMutation({
     mutationFn: createClient,
-    onSuccess: () => {
+    onSuccess: (newClient) => {
+      // Update the cache with the new client
+      queryClient.setQueryData(['clients'], (oldClients: any) => {
+        return [...(oldClients || []), newClient];
+      });
       setIsAddModalOpen(false);
       setNewClient({
         name: '',

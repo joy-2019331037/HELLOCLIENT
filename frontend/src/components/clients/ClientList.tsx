@@ -20,7 +20,9 @@ const ClientList: React.FC = () => {
   });
 
   const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this client?')) {
+    if (window.confirm(
+      'Are you sure you want to delete this client? This action will also delete all projects and interactions associated with this client. This action cannot be undone.'
+    )) {
       try {
         await deleteClient(id);
         refetch();

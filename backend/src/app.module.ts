@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { join } from 'path';
 import { PrismaModule } from './prisma/prisma.module';
 import { AppController } from './app.controller';
 import { JwtModule } from '@nestjs/jwt';
@@ -21,6 +24,31 @@ import { ReminderService } from './services/reminder/reminder.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+    }),
+    MailerModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        transport: {
+          host: configService.get('SMTP_HOST'),
+          port: configService.get('SMTP_PORT'),
+          secure: configService.get('SMTP_SECURE') === 'true',
+          auth: {
+            user: configService.get('SMTP_USER'),
+            pass: configService.get('SMTP_PASS'),
+          },
+        },
+        defaults: {
+          from: `"HELLOCLIENT" <${configService.get('SMTP_FROM')}>`,
+        },
+        template: {
+          dir: join(process.cwd(), 'dist/templates'),
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
     }),
     PrismaModule,
     PassportModule,

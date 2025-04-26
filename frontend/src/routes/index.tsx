@@ -16,12 +16,14 @@ import InteractionForm from '../components/interactions/InteractionForm';
 import InteractionDetail from '../components/interactions/InteractionDetails';
 import Profile from '../pages/Profile';
 
+
 export const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+    
       <Route
         element={
           <PrivateRoute>

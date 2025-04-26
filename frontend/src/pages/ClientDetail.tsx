@@ -75,7 +75,9 @@ const ClientDetail: React.FC = () => {
   };
 
   const handleDelete = () => {
-    if (window.confirm('Are you sure you want to delete this client?')) {
+    if (window.confirm(
+      'Are you sure you want to delete this client? This action will also delete all projects and interactions associated with this client. This action cannot be undone.'
+    )) {
       deleteMutation.mutate();
     }
   };
