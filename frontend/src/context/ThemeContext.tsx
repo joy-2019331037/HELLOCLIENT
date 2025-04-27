@@ -4,6 +4,8 @@ import axios from 'axios';
 
 type Theme = 'light' | 'dark';
 
+const api_url = process.env.REACT_APP_API_URL;
+
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
@@ -38,7 +40,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (user) {
         const token = localStorage.getItem('token');
         await axios.patch(
-          'http://localhost:8000/api/auth/theme-preference',
+          `${api_url}/auth/theme-preference`,
           { themePreference: newTheme },
           {
             headers: {

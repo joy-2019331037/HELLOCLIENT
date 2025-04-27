@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { ReminderService } from '../../services/reminder/reminder.service';
-import { CreateReminderDto } from '../../dto/reminder.dto';
-import { UpdateReminderDto } from '../../dto/reminder.dto';
+import { CreateReminderDto } from '../../dto/reminder/reminder.dto';
+import { UpdateReminderDto } from '../../dto/reminder/reminder.dto';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 interface RequestWithUser extends Request {

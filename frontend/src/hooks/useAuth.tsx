@@ -9,6 +9,8 @@ interface User {
   themePreference: 'light' | 'dark';
 }
 
+const api_url = process.env.REACT_APP_API_URL;
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -31,7 +33,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-        const response = await axios.get('http://localhost:8000/api/auth/me', {
+        const response = await axios.get(`${api_url}/auth/me`, {
           headers: {
             Authorization: `Bearer ${token}`
           }

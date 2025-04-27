@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
 import { ProjectService } from '../../services/project/project.service';
-import { CreateProjectDto } from '../../dto/project.dto';
-import { UpdateProjectDto } from '../../dto/project.dto';
+import { CreateProjectDto } from '../../dto/project/project.dto';
+import { UpdateProjectDto } from '../../dto/project/project.dto';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 
 interface RequestWithUser {
