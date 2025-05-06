@@ -1,6 +1,6 @@
 # HELLOCLIENT
 
-HELLOCLIENT is a CRM (Customer Relationship Management) web application designed to help businesses manage their clients, projects, and interactions efficiently.
+HELLOCLIENT is a CRM (Customer Relationship Management) web application designed to help freelancers manage their clients, projects, and interactions efficiently.
 
 ## Features
 
@@ -67,7 +67,7 @@ helloclient/
 
 3. Install frontend dependencies:
    ```bash
-   cd ../frontend
+   cd frontend
    npm install
    ```
 
@@ -75,20 +75,67 @@ helloclient/
    - Create `.env` files in both backend and frontend directories
 
 5. Start the development servers:
-   - Backend: `cd backend && npm run start:dev`
-   - Frontend: `cd frontend && npm start`
+   - Backend: 
+   ```bash
+   cd backend && npm run start:dev
+   ```
+   Wait for the message : **`Backend server is running on http://localhost:8000`**
+   - Frontend: 
+   ```bash
+   cd frontend && npm start
+   ```
+   The frontend will open automatically at **http://localhost:3000**
 
-## Environment Variables
+### Environment Variables
 
-### Backend (.env)
+#### Backend (.env)
 - `DATABASE_URL`: PostgreSQL connection string
 - `JWT_SECRET`: Secret key for JWT token generation
 - `PORT`: Backend server port (default: 8000)
 
-### Frontend (.env)
-- `REACT_APP_API_URL`: Frontend API URL (default: http://localhost:3000)
+#### Frontend (.env)
+- `REACT_APP_API_URL`: Frontend API URL (default: http://localhost:3000/api)
 
 
+### Example .env
+#### Backend
+
+```dotenv
+DATABASE_URL=postgresql://username:password@localhost:5433/database_name
+JWT_SECRET=jwt_secret_key
+PORT=8000
+FRONTEND_URL=http://localhost:3000
+```
+
+#### Frontend 
+```dotenv
+REACT_APP_API_URL=http://localhost:3000/api
+```
+
+
+### Database Setup
+
+1. Create a PostgreSQL database:
+   ```bash
+   createdb database_name
+   ```
+
+2. Set up database URL in the backend `.env` file:
+   ```
+   DATABASE_URL="postgresql://username:password@localhost:5433/database_name"
+   ```
+
+3. Run database migrations:
+   ```bash
+   cd backend
+   npx prisma migrate deploy
+   ```
+
+Since this is a fresh installation:
+
+   - The database will be empty
+   - A new account must be registered at http://localhost:3000/register.
+   - After registration, users can log in and start using the application.
 
 ## Summary of Approach and Decisions
 
@@ -98,23 +145,20 @@ helloclient/
 ### Backend Architecture
 - **NestJS Framework**: Chosen for its modular architecture and TypeScript support
 - **Prisma ORM**: Selected for type-safe database operations and efficient query building
-- **JWT Authentication**: Implemented for secure user authentication and session management
-- **Controller-Service Pattern**: Used for clean separation of concerns and maintainable code
+- **JWT Authentication**: Implemented for secure user authentication
+- **Controller-Service Pattern**: Used for clean separation and maintainable code
 
 ### Frontend Architecture
 - **React with TypeScript**: Ensures type safety and better developer experience
 - **Tailwind CSS**: Provides utility-first styling for rapid development
-- **Context API**: Manages global state including theme preferences
 - **Component-based Design**: Promotes code reusability and maintainability
 
 ### Theme Implementation
 - **User Preference Storage**: Theme settings stored in database
-- **System-wide Context**: Manages theme state across application
-- **CSS Variables**: Enables dynamic theming
 - **Smooth Transitions**: Enhances user experience
 
 ### Security Implementation
-- **JWT with Refresh Tokens**: Secure authentication with token rotation
+- **JWT Tokens**: Secure authentication with JWT token
 - **Password Hashing**: Using bcrypt for secure password storage
 - **Input Validation**: Ensures data integrity and security
 
