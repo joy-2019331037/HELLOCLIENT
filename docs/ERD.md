@@ -1,6 +1,6 @@
 # Entity Relationship Diagram (ERD)
 
-![HELLOCLIENT ER Diagram](ER_Diagram_helloClient.png)
+![HELLOCLIENT ER Diagram](ER_DIAGRAM_helloClient.jpg)
 
 ## Database Schema Overview
 
